@@ -1,0 +1,29 @@
+# Credenciales — NUNCA subir a GitHub
+.streamlit/secrets.toml
+
+# Archivos temporales Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Entornos virtuales
+venv/
+env/
+.env
+
+# Archivos locales que no van al cloud
+DATA/CONSOLIDADO/
+DATA/estado.json
+test_carga.py
+limpiar_consolidado.py
+cargar_consolidado_supabase.py
+cargar_feriados_supabase.py
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
+desktop.ini
