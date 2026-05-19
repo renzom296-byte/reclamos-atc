@@ -245,14 +245,16 @@ def sincronizar_tickets(df: pd.DataFrame, usuario: str):
                     update[col] = reg[col]
             a_update.append(update)
 
-    # Insertar nuevos en lotes
+    # Upsert nuevos (insert si no existe, ignorar si ya existe)
     BATCH = 100
     for i in range(0, len(nuevos), BATCH):
         lote = nuevos[i:i + BATCH]
-        client.table("tickets").insert(lote).execute()
+        client.table("tickets").upsert(
+            lote, on_conflict="clave_unica"
+        ).execute()
         time.sleep(0.3)
 
-    # Actualizar existentes en lotes
+    # Actualizar existentes — solo campos calculados
     for i in range(0, len(a_update), BATCH):
         lote = a_update[i:i + BATCH]
         client.table("tickets").upsert(
