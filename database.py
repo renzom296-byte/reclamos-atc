@@ -207,7 +207,10 @@ def sincronizar_tickets(df: pd.DataFrame, usuario: str):
     - Campos manuales → NUNCA se tocan
     """
     client = get_client()
-    registros = _df_a_registros(df)
+    # Deduplicar por clave_unica antes de enviar a Supabase
+    # Mantener la última ocurrencia de cada clave
+    df_dedup = df.drop_duplicates(subset=["CLAVE_UNICA"], keep="last")
+    registros = _df_a_registros(df_dedup)
 
     if not registros:
         return
