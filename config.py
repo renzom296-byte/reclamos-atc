@@ -8,13 +8,19 @@ except Exception:
     SUPABASE_URL = "https://mtrebivjuqrzturdvopt.supabase.co"
     SUPABASE_KEY = "eyJhbGc..."
 
-# Ruta siempre apunta a la raíz del proyecto
-# sin importar desde dónde se importe config.py
-BASE = os.path.dirname(os.path.abspath(__file__))
+# Ruta absoluta basada en la ubicación de app.py en Streamlit Cloud
+BASE = os.path.dirname(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# Si config.py está en UI/ subir un nivel
-if os.path.basename(BASE) == "UI":
-    BASE = os.path.dirname(BASE)
+# Verificar si estamos en Streamlit Cloud
+if os.path.exists("/mount/src"):
+    # Buscar la carpeta del proyecto en /mount/src
+    proyectos = os.listdir("/mount/src")
+    if proyectos:
+        BASE = os.path.join("/mount/src", proyectos[0])
+else:
+    BASE = os.path.dirname(os.path.abspath(__file__))
+    if os.path.basename(BASE) == "UI":
+        BASE = os.path.dirname(BASE)
 
 RUTAS = {
     "plantillas":      os.path.join(BASE, "DATA", "PLANTILLAS"),
