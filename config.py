@@ -19,6 +19,6 @@ if not os.path.exists(BASE):
 RUTAS = {
     "plantillas":      os.path.join(BASE, "DATA", "PLANTILLAS"),
     "plantilla_res":   os.path.join(BASE, "DATA", "PLANTILLAS", "PLANTILLA RESOLUCION 2025 GNP.docx"),
-    "plantilla_carta": os.path.join(BASE, "DATA", "PLANTILLAS", "CARTAS DE CUMPLIMIENTO GNP-ATC.docx"),
+    "plantilla_carta": os.path.join(BASE, "DATA", "PLANTILLAS", "CARTAS DE CUMPLIMIENTO GNP VF - ATC.docx"),
 }
 ADMIN_USUARIO = None
