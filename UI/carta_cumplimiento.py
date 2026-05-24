@@ -34,20 +34,15 @@ def limpiar_texto(valor):
 # REEMPLAZO SEGURO EN WORD
 # ==========================================================
 def _reemplazar_en_parrafo(parrafo, campos, marcador_fmt):
+    texto_original = "".join(run.text for run in parrafo.runs)
+    texto_nuevo = texto_original
     for k, v in campos.items():
         marcador = marcador_fmt(k)
-        texto_completo = "".join(run.text for run in parrafo.runs)
-        if marcador not in texto_completo:
-            continue
-        reemplazado = False
-        for run in parrafo.runs:
-            if marcador in run.text:
-                run.text = run.text.replace(marcador, v)
-                reemplazado = True
-        if not reemplazado:
-            texto_nuevo = texto_completo.replace(marcador, v)
-            for i, run in enumerate(parrafo.runs):
-                run.text = texto_nuevo if i == 0 else ""
+        texto_nuevo = texto_nuevo.replace(marcador, v)
+    if texto_original != texto_nuevo and parrafo.runs:
+        parrafo.runs[0].text = texto_nuevo
+        for run in parrafo.runs[1:]:
+            run.text = ""
 
 def _reemplazar_en_tabla(tabla, campos, marcador_fmt):
     for fila in tabla.rows:
@@ -64,12 +59,14 @@ def generar_carta(row, usuario: str = ""):
     doc = Document(RUTAS["plantilla_carta"])
 
     campos = {
-        "TICKET":                               limpiar_texto(row.get("TICKET")),
-        "USUARIO":                              limpiar_texto(row.get("USUARIO")),
-        "CORREO":                               limpiar_texto(row.get("CORREO")),
-        "RESOLUCION":                           limpiar_texto(row.get("RESOLUCION")),
-        "FECHA PROGRAMADA MANTENIMIENTO RES":   fecha_extensa(row.get("FECHA PROGRAMADA MANTENIMIENTO RES")),
-        "FECHA DE CUMPLIMIENTO":                fecha_extensa(row.get("FECHA DE CUMPLIMIENTO")),
+        "N° CARTA DE CUMPLIMIENTO":                 limpiar_texto(row.get("N° CARTA DE CUMPLIMIENTO")),
+        "USUARIO":                                  limpiar_texto(row.get("USUARIO")),
+        "CORREO":                                   limpiar_texto(row.get("CORREO")),
+        "RESOLUCION":                               limpiar_texto(row.get("RESOLUCION")),
+        "TICKET":                                   limpiar_texto(row.get("TICKET")),
+        "FECHA PROGRAMADA MANTENIMIENTO RES":       fecha_extensa(row.get("FECHA PROGRAMADA MANTENIMIENTO RES")),
+        "FECHA DE CUMPLIMIENTO":                    fecha_extensa(row.get("FECHA DE CUMPLIMIENTO")),
+        "FECHA DE ELABORACION CARTA DE CUMPLIMIENTO": fecha_extensa(row.get("FECHA DE ELABORACION CARTA DE CUMPLIMIENTO")),
     }
 
     marcador_fmt = lambda k: "{" + k + "}"
@@ -114,7 +111,11 @@ def mostrar_carta_cumplimiento():
     df = st.session_state.df.copy()
 
     # Filtro obligatorio
-    df = df[df["FECHA DE RESOLUCION"].notna()]
+    # Filtrar tickets donde aplica carta de cumplimiento
+    df_aplica = df[
+        df["APLICA CARTA DE CUMPLIMIENTO"].astype(str).str.strip().str.upper() == "SI"
+    ] if "APLICA CARTA DE CUMPLIMIENTO" in df.columns else df[df["FECHA DE RESOLUCION"].notna()]
+    df = df_aplica
 
     if df.empty:
         st.info("No existen tickets que ameriten Carta de Cumplimiento.")
