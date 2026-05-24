@@ -8,16 +8,10 @@ except Exception:
     SUPABASE_URL = "https://mtrebivjuqrzturdvopt.supabase.co"
     SUPABASE_KEY = "eyJhbGc..."
 
-# Ruta absoluta basada en la ubicación de app.py en Streamlit Cloud
-BASE = os.path.dirname(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-# Verificar si estamos en Streamlit Cloud
-if os.path.exists("/mount/src"):
-    # Buscar la carpeta del proyecto en /mount/src
-    proyectos = os.listdir("/mount/src")
-    if proyectos:
-        BASE = os.path.join("/mount/src", proyectos[0])
-else:
+# Ruta raíz — funciona tanto local como en Streamlit Cloud
+BASE = "/mount/src/reclamos-atc"
+if not os.path.exists(BASE):
+    # Local — usa la carpeta donde está config.py
     BASE = os.path.dirname(os.path.abspath(__file__))
     if os.path.basename(BASE) == "UI":
         BASE = os.path.dirname(BASE)
