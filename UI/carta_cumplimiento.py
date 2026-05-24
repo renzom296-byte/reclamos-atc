@@ -61,9 +61,6 @@ def _reemplazar_en_tabla(tabla, campos, marcador_fmt):
 # GENERAR CARTA
 # ==========================================================
 def generar_carta(row, usuario: str = ""):
-    import streamlit as st
-    carpeta = "/mount/src/reclamos-atc/DATA/PLANTILLAS"
-    st.write("Archivos en PLANTILLAS:", os.listdir(carpeta))
     doc = Document(RUTAS["plantilla_carta"])
 
     campos = {
