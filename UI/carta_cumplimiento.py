@@ -110,12 +110,8 @@ def mostrar_carta_cumplimiento():
 
     df = st.session_state.df.copy()
 
-    # Filtro obligatorio
-    # Filtrar tickets donde aplica carta de cumplimiento
-    df_aplica = df[
-        df["APLICA CARTA DE CUMPLIMIENTO"].astype(str).str.strip().str.upper() == "SI"
-    ] if "APLICA CARTA DE CUMPLIMIENTO" in df.columns else df[df["FECHA DE RESOLUCION"].notna()]
-    df = df_aplica
+    # Filtro obligatorio — solo tickets con fecha de resolución
+    df = df[df["FECHA DE RESOLUCION"].notna()]
 
     if df.empty:
         st.info("No existen tickets que ameriten Carta de Cumplimiento.")
