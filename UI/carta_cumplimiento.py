@@ -60,6 +60,10 @@ def _reemplazar_en_tabla(tabla, campos, marcador_fmt):
 # ==========================================================
 # GENERAR CARTA
 # ==========================================================
+import streamlit as st
+st.write("Ruta plantilla:", RUTAS["plantilla_carta"])
+st.write("Existe:", os.path.exists(RUTAS["plantilla_carta"]))
+st.write("Archivos en DATA:", os.listdir(os.path.join(os.path.dirname(RUTAS["plantilla_carta"]), "..")))
 def generar_carta(row, usuario: str = ""):
     doc = Document(RUTAS["plantilla_carta"])
 
