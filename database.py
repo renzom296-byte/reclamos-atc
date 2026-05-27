@@ -105,7 +105,6 @@ COLUMNAS_FECHA_BD = {
 }
 
 COLUMNAS_CALCULADAS = [
-    "estado", "solicitud", "fecha_cierre_ticket", "fecha_averia",
     "senor_a", "identificado", "usuario_a",
     "fecha_inicia_reclamo_calidad", "cierre_ticket_reclamo_averia",
     "fecha_limite_resolucion", "fecha_limite_cumplimiento",
