@@ -52,9 +52,8 @@ def _find_col(df: pd.DataFrame, nombre: str) -> str:
 # ==========================================================
 def generar_clave_unica(df: pd.DataFrame) -> pd.DataFrame:
 
-    col_ticket   = _find_col(df, "TICKET") or "TICKET"
-    col_fecha    = _find_col(df, "FECHA Y HORA DE LA AVERIA") or "FECHA Y HORA DE LA AVERIA"
-    col_solicitud = _find_col(df, "SOLICITUD") or "SOLICITUD"
+    col_ticket = _find_col(df, "TICKET") or "TICKET"
+    col_fecha  = _find_col(df, "FECHA Y HORA DE LA AVERIA") or "FECHA Y HORA DE LA AVERIA"
 
     def _clave(row):
         ticket = str(row.get(col_ticket, "")).strip()
@@ -65,9 +64,7 @@ def generar_clave_unica(df: pd.DataFrame) -> pd.DataFrame:
         else:
             fecha_str = "SINF"
 
-        solicitud = str(row.get(col_solicitud, "")).strip().upper().replace(" ", "-")
-
-        return f"{ticket}_{fecha_str}_{solicitud}"
+        return f"{ticket}_{fecha_str}"
 
     df["CLAVE_UNICA"] = df.apply(_clave, axis=1)
     return df
