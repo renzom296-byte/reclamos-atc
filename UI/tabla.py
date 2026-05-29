@@ -113,7 +113,7 @@ def mostrar_tabla(df: pd.DataFrame) -> pd.DataFrame:
         else:
             column_config[col] = st.column_config.TextColumn(col, disabled=True)
 
-    st.caption("💡 Recuerda presionar **Guardar Cambios** para conservar las ediciones. · {len(df_vista)} ticket(s) mostrados"")
+    st.caption("💡 Recuerda presionar **Guardar Cambios** para conservar las ediciones. · {len(df_vista)} ticket(s) mostrados")
     st.caption(f"{len(df_vista)} ticket(s) mostrados")
 
     df_editado = st.data_editor(
