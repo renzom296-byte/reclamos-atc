@@ -22,6 +22,18 @@ def fecha_extensa(fecha):
     f = pd.to_datetime(fecha)
     return f"{f.day} de {MESES[f.month]} de {f.year}"
 
+def fecha_solo(fecha):
+    # Fecha extensa ignorando la hora
+    return fecha_extensa(fecha)
+
+def _limpiar_campo(valor):
+    import re
+    if pd.isna(valor):
+        return ""
+    texto = str(valor).strip()
+    return re.sub(r' +', ' ', texto)
+
+
 # ==========================================================
 # COLUMNAS A MOSTRAR EN LA TABLA
 # ==========================================================
@@ -57,10 +69,16 @@ COLUMNAS_VISTA = [
 # CARGAR ÚLTIMO CONSOLIDADO
 # ==========================================================
 def cargar_ultimo_consolidado():
-    import streamlit as st
-    if "df" in st.session_state and not st.session_state.df.empty:
-        return st.session_state.df.copy()
-    return pd.DataFrame()
+    carpeta = RUTAS["consolidado"]
+    archivos = sorted(
+        [f for f in os.listdir(carpeta) if f.startswith("CONSOLIDADO_")],
+        reverse=True
+    )
+
+    if not archivos:
+        return pd.DataFrame()
+
+    return pd.read_excel(os.path.join(carpeta, archivos[0]))
 
 # ==========================================================
 # REEMPLAZO SEGURO — PRESERVA FORMATO DEL WORD
