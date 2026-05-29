@@ -69,16 +69,10 @@ COLUMNAS_VISTA = [
 # CARGAR ÚLTIMO CONSOLIDADO
 # ==========================================================
 def cargar_ultimo_consolidado():
-    carpeta = RUTAS["consolidado"]
-    archivos = sorted(
-        [f for f in os.listdir(carpeta) if f.startswith("CONSOLIDADO_")],
-        reverse=True
-    )
-
-    if not archivos:
-        return pd.DataFrame()
-
-    return pd.read_excel(os.path.join(carpeta, archivos[0]))
+    import streamlit as st
+    if "df" in st.session_state and not st.session_state.df.empty:
+        return st.session_state.df.copy()
+    return pd.DataFrame()
 
 # ==========================================================
 # REEMPLAZO SEGURO — PRESERVA FORMATO DEL WORD
