@@ -39,6 +39,11 @@ def cargar_archivo(archivo, feriados, usuario: str = "sistema"):
 
     # Eliminar columnas Unnamed
     df = df.loc[:, ~df.columns.astype(str).str.startswith("Unnamed")]
+    
+    # Eliminar columna GLOSA si existe
+    if "GLOSA" in df.columns:
+        df = df.drop(columns=["GLOSA"])
+
 
     # Normalizar nombres de columnas
     df = _normalizar_columnas(df)
