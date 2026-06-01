@@ -44,7 +44,6 @@ def cargar_archivo(archivo, feriados, usuario: str = "sistema"):
     if "GLOSA" in df.columns:
         df = df.drop(columns=["GLOSA"])
 
-
     # Normalizar nombres de columnas
     df = _normalizar_columnas(df)
 
