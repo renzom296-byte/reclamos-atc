@@ -179,12 +179,19 @@ def mostrar_carta_cumplimiento():
                 sel = st.checkbox("", value=seleccionar_todos, key=f"cc_chk_{row['TICKET']}_{idx}")
                 seleccionados[idx] = (sel, row)
             with col_datos:
-                c1, c2, c3, c4, c5 = st.columns([1, 1.5, 1.5, 1.5, 1.5])
+                c1, c2, c3, c4, c5, c6 = st.columns([1, 1.5, 1.5, 1.5, 1.5, 1.5])
+                c1.caption("TICKET")
                 c1.write(f"**{row['TICKET']}**")
+                c2.caption("FECHA AVERÍA")
                 c2.write(row["FECHA Y HORA DE LA AVERIA"])
+                c3.caption("SOLICITUD")
                 c3.write(row["SOLICITUD"])
+                c4.caption("ESTADO")
                 c4.write(row["ESTADO"])
-                c5.write(row["PASO A CALIDAD"])
+                c5.caption("FECHA RESOLUCIÓN")
+                c5.write(row.get("FECHA DE RESOLUCION", ""))
+                c6.caption("FECHA RESTABLECIMIENTO")
+                c6.write(row.get("FECHA Y HORA DE RESTABLECIMIENTO DEL SERVICIO", ""))
         st.divider()
 
     # Botones de descarga
