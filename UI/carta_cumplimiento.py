@@ -191,18 +191,12 @@ def mostrar_carta_cumplimiento():
                 seleccionados[idx] = (sel, row)
             with col_datos:
                 c1, c2, c3, c4, c5, c6 = st.columns([1, 1.5, 1.5, 1.5, 1.5, 1.5])
-                c1.caption("TICKET")
                 c1.write(f"**{row['TICKET']}**")
-                c2.caption("FECHA AVERÍA")
-                c2.write(row["FECHA Y HORA DE LA AVERIA"])
-                c3.caption("SOLICITUD")
+                c2.write(pd.to_datetime(row["FECHA Y HORA DE LA AVERIA"]).strftime("%d/%m/%Y") if pd.notna(row["FECHA Y HORA DE LA AVERIA"]) else "")
                 c3.write(row["SOLICITUD"])
-                c4.caption("ESTADO")
                 c4.write(row["ESTADO"])
-                c5.caption("FECHA RESOLUCIÓN")
-                c5.write(row.get("FECHA DE RESOLUCION", ""))
-                c6.caption("FECHA RESTABLECIMIENTO")
-                c6.write(row.get("FECHA Y HORA DE RESTABLECIMIENTO DEL SERVICIO", ""))
+                c5.write(pd.to_datetime(row.get("FECHA DE RESOLUCION")).strftime("%d/%m/%Y") if pd.notna(row.get("FECHA DE RESOLUCION")) else "")
+                c6.write(pd.to_datetime(row.get("FECHA Y HORA DE RESTABLECIMIENTO DEL SERVICIO")).strftime("%d/%m/%Y") if pd.notna(row.get("FECHA Y HORA DE RESTABLECIMIENTO DEL SERVICIO")) else "")
         st.divider()
 
     # Botones de descarga
