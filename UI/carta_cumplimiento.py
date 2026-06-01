@@ -170,6 +170,17 @@ def mostrar_carta_cumplimiento():
         st.session_state["cc_documentos_generados"] = True
 
     st.divider()
+    # Encabezados de columnas
+    _, enc = st.columns([0.3, 9.7])
+    with enc:
+        e1, e2, e3, e4, e5, e6 = st.columns([1, 1.5, 1.5, 1.5, 1.5, 1.5])
+        e1.markdown("**TICKET**")
+        e2.markdown("**FECHA AVERÍA**")
+        e3.markdown("**SOLICITUD**")
+        e4.markdown("**ESTADO**")
+        e5.markdown("**FECHA RESOLUCIÓN**")
+        e6.markdown("**FECHA RESTABLECIMIENTO**")
+    st.divider()
 
     # Tabla con checkboxes
     for idx, row in df.reset_index(drop=True).iterrows():
